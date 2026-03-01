@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --med-navy: #1a2e44;
+        --med-blue: #0056b3;
+        --med-text: #2c3e50; /* High contrast body text */
+        --med-muted: #546e7a; /* Secondary text */
+        --med-light: #f4f8fb;
+    }
+
+    body {
+        background-color: #ffffff;
+        color: var(--med-text);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    /* Hero Section */
+    .hero-container {
+        position: relative;
+        padding: 120px 0;
+        background: linear-gradient(135deg, rgba(26, 46, 68, 0.95) 0%, rgba(0, 86, 179, 0.85) 100%), 
+                    url('{{ url_for('static', filename='img/brain_hero.png') }}');
+        background-attachment: fixed;
+        background-position: center;
+        background-size: cover;
+        border-radius: 0 0 40px 40px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Cards - Visible Borders & Dark Text */
+    .stat-card {
+        border: 1px solid #e1e8ed; /* Visible border for clarity on white bg */
+        border-radius: 16px;
+        background: #ffffff;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        text-align: center;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(26, 46, 68, 0.12);
+        border-color: var(--med-blue);
+    }
+
+    /* Darker font colors for the features */
+    .stat-card h4 {
+        color: var(--med-navy);
+        font-weight: 700;
+        margin-top: 15px;
+    }
+
+    .stat-card p {
+        color: var(--med-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    /* Icon Styling */
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: var(--med-light);
+        margin: 0 auto;
+        color: var(--med-blue);
+        transition: 0.3s;
+    }
+
+    .stat-card:hover .icon-box {
+        background: var(--med-blue);
+        color: #ffffff;
+    }
+
+    /* Workflow Styles - High Visibility */
+    .workflow-section {
+        background-color: #f8f9fa; /* Slight off-white to separate sections */
+        border-radius: 40px;
+        padding: 80px 0;
+    }
+
+    .workflow-text-title {
+        color: var(--med-navy);
+        font-weight: 800;
+    }
+
+    .step-item {
+        border-left: 3px solid #dee2e6;
+        padding-left: 30px;
+        margin-left: 20px;
+        transition: 0.3s;
+    }
+
+    .step-item:hover {
+        border-left-color: var(--med-blue);
+    }
+
+    .step-number {
+        background: var(--med-blue);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        position: absolute;
+        left: -22px;
+        box-shadow: 0 4px 10px rgba(0, 86, 179, 0.3);
+    }
+
+    /* Professional Buttons */
+    .btn-action {
+        background-color: var(--med-blue);
+        color: white;
+        padding: 16px 45px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        border: none;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .btn-action:hover {
+        background-color: var(--med-navy);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 86, 179, 0.25);
+    }
+
+    /* Scroll Animations */
+    .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+    }
+
+    .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+</style>
+
+<div class="hero-container text-white mb-5">
+    <div class="container text-center">
+        <div class="badge bg-info mb-3 px-3 py-2 text-uppercase fw-bold shadow-sm">Diagnostic Neural Interface</div>
+        <h1 class="display-3 fw-bold mb-3">Precision Neurology Through <br>Deep Learning Architecture</h1>
+        <p class="lead mb-5 opacity-90 mx-auto fs-4" style="max-width: 800px;">
+            Professional-grade tumor localization using YOLOv8, 
+            optimized for rapid clinical decision support.
+        </p>
+        
+        <div class="main-cta">
+            {% if not current_user.is_authenticated %}
+                <a href="{{ url_for('auth.signup') }}" class="btn btn-action">Register Medical Profile</a>
+            {% else %}
+                {% if current_user.role == 'patient' %}
+                    <a href="{{ url_for('main.patient_dashboard') }}" class="btn btn-action">Open Health Dashboard</a>
+                {% else %}
+                    <a href="{{ url_for('main.doctor_dashboard') }}" class="btn btn-action">Diagnostic Command Center</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h6 class="text-primary text-uppercase fw-bold mb-2">Platform Capabilities</h6>
+        <h2 class="display-6 fw-bold text-dark">Diagnostic Support Features</h2>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4 reveal">
+            <div class="card stat-card p-5 h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="icon-box">
+                        <i class="fas fa-microscope fa-2x"></i>
+                    </div>
+                    <h4>AI Analysis</h4>
+                    <p>High-confidence YOLOv8 detection identifies morphological anomalies in MRI axial slices with clinical precision.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 reveal" style="transition-delay: 0.1s;">
+            <div class="card stat-card p-5 h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="icon-box">
+                        <i class="fas fa-brain fa-2x"></i>
+                    </div>
+                    <h4>Segmentation</h4>
+                    <p>Advanced pixel-level masking isolations assist in volume estimation and exact boundary mapping of tumor masses.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 reveal" style="transition-delay: 0.2s;">
+            <div class="card stat-card p-5 h-100 shadow-sm">
+                <div class="card-body">
+                    <div class="icon-box">
+                        <i class="fas fa-file-pdf fa-2x"></i>
+                    </div>
+                    <h4>Rapid Reporting</h4>
+                    <p>Structured diagnostic PDF generation compliant with medical standards for immediate physician review.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="workflow-section mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 reveal">
+                <h6 class="text-primary text-uppercase fw-bold mb-3">How it works</h6>
+                <h2 class="display-5 workflow-text-title mb-5">The Diagnostic Workflow</h2>
+                
+                <div class="position-relative">
+                    <div class="step-item mb-5 position-relative">
+                        <div class="step-number">1</div>
+                        <h5 class="fw-bold text-dark">Imaging Ingestion</h5>
+                        <p style="color: var(--med-muted);">Securely upload MRI datasets. Our system handles DICOM and standard imaging formats with end-to-end encryption.</p>
+                    </div>
+                    
+                    <div class="step-item mb-5 position-relative">
+                        <div class="step-number">2</div>
+                        <h5 class="fw-bold text-dark">Neural Core Localization</h5>
+                        <p style="color: var(--med-muted);">Algorithms analyze scan geometry to pinpoint tumor locations and generate classification probability maps.</p>
+                    </div>
+                    
+                    <div class="step-item position-relative">
+                        <div class="step-number">3</div>
+                        <h5 class="fw-bold text-dark">Clinical Validation</h5>
+                        <p style="color: var(--med-muted);">Review localized visual results on your dashboard and download the final comprehensive diagnostic report.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 mt-5 mt-lg-0 text-center reveal" style="transition-delay: 0.3s;">
+    <div class="analysis-window position-relative p-3 bg-white shadow-lg rounded-4 border">
+        
+        <div class="scanner-line"></div>
+        
+        <img src="{{ url_for('static', filename='img/brain.png') }}" 
+             class="img-fluid rounded-3" 
+             alt="Brain MRI Analysis"
+             style="max-height: 450px; width: auto;">
+
+        <div class="mt-3 d-flex justify-content-between align-items-center px-2">
+            <div class="text-start">
+                <span class="d-block small fw-bold text-navy">MODEL: YOLOv8-Detection</span>
+                <span class="d-block px-2 py-1 badge bg-success-soft text-success small" style="background: #e8f5e9;">
+                    <i class="fas fa-check-circle"></i> System Ready
+                </span>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Professional Scanner Animation */
+    .analysis-window {
+        overflow: hidden;
+        background: #ffffff;
+    }
+
+    .scanner-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(to right, transparent, var(--med-blue), transparent);
+        box-shadow: 0 0 15px var(--med-blue);
+        z-index: 10;
+        animation: scanMove 4s ease-in-out infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes scanMove {
+        0%, 100% { top: 5%; }
+        50% { top: 90%; }
+    }
+
+    /* Soft transition for the image itself */
+    .analysis-window img {
+        transition: transform 0.5s ease;
+        filter: brightness(0.95);
+    }
+
+    .analysis-window:hover img {
+        transform: scale(1.03);
+        filter: brightness(1);
+    }
+</style>
+        </div>
+    </div>
+</div>
+
+<script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    document.addEventListener("DOMContentLoaded", reveal);
+</script>
+{% endblock %}

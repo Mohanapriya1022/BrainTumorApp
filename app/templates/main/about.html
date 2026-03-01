@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --med-navy: #0f172a;
+        --med-blue: #0062ff;
+        --accent-blue: #38bdf8;
+        --med-light: #f8fafc;
+        --glioma: #ff4d4d;
+        --meningioma: #ffcc00;
+        --pituitary: #00d97e;
+    }
+
+    body {
+        background-color: var(--med-light);
+        color: var(--med-navy);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* --- HERO SECTION --- */
+    .about-hero {
+        background: linear-gradient(135deg, var(--med-navy) 0%, #1e293b 100%);
+        padding: 140px 0 100px;
+        clip-path: polygon(0 0, 100% 0, 100% 95%, 0% 100%);
+        color: white;
+    }
+
+    .hero-badge {
+        background: rgba(56, 189, 248, 0.15);
+        color: var(--accent-blue);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    /* --- PROCEDURE STEPS --- */
+    .procedure-container {
+        position: relative;
+        padding: 40px 0;
+    }
+
+    .step-card {
+        background: #ffffff;
+        border-radius: 20px;
+        border: 1px solid rgba(15, 23, 42, 0.05);
+        padding: 30px;
+        margin-bottom: 20px;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+
+    .step-card:hover {
+        border-color: var(--med-blue);
+        transform: translateX(10px);
+        box-shadow: 0 10px 30px rgba(0, 98, 255, 0.08);
+    }
+
+    .step-number {
+        min-width: 50px;
+        height: 50px;
+        background: var(--med-navy);
+        color: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        margin-right: 25px;
+        font-size: 1.2rem;
+        border: 2px solid var(--accent-blue);
+    }
+
+    .step-icon {
+        font-size: 1.5rem;
+        color: var(--med-blue);
+        margin-right: 20px;
+        width: 30px;
+        text-align: center;
+    }
+
+    .step-content h5 {
+        margin-bottom: 5px;
+        font-weight: 700;
+        color: var(--med-navy);
+    }
+
+    .step-content p {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+        color: #64748b;
+    }
+
+    /* --- TUMOR CARDS & YOLO SECTION --- */
+    .tumor-card {
+        border: 1px solid rgba(15, 23, 42, 0.05);
+        border-radius: 30px;
+        background: #fff;
+        transition: all 0.5s ease;
+    }
+
+    .yolo-section {
+        background: var(--med-navy);
+        color: white;
+        border-radius: 40px;
+        padding: 60px;
+        margin: 80px 0;
+    }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+</style>
+
+<div class="about-hero text-center">
+    <div class="container">
+        <span class="hero-badge mb-4 d-inline-block">BIOMEDICAL AI RESEARCH</span>
+        <h1 class="display-3 fw-bold">Precision Oncology <br>meets <span style="color: var(--accent-blue);">YOLOv8</span></h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5 reveal">
+                <h6 class="text-primary text-uppercase fw-bold mb-2">User Journey</h6>
+                <h2 class="display-6 fw-bold">How NeuroScan Works</h2>
+                <p class="text-muted">A seamless bridge between AI diagnostics and clinical intervention.</p>
+            </div>
+
+            <div class="procedure-container">
+                <div class="step-card reveal">
+                    <div class="step-number">01</div>
+                    <i class="fas fa-user-plus step-icon"></i>
+                    <div class="step-content">
+                        <h5>Authentication</h5>
+                        <p>Register a new medical profile or log in to your existing secure dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="step-card reveal">
+                    <div class="step-number">02</div>
+                    <i class="fas fa-cloud-upload-alt step-icon"></i>
+                    <div class="step-content">
+                        <h5>MRI Data Ingestion</h5>
+                        <p>Upload your axial MRI scan images (DICOM/PNG/JPG) for neural processing.</p>
+                    </div>
+                </div>
+
+                <div class="step-card reveal">
+                    <div class="step-number">03</div>
+                    <i class="fas fa-microscope step-icon"></i>
+                    <div class="step-content">
+                        <h5>AI Detection & Severity Scoring</h5>
+                        <p>YOLOv8 engine identifies tumors, classifies the type (Glioma/Meningioma/Pituitary), and determines severity levels.</p>
+                    </div>
+                </div>
+
+                <div class="step-card reveal">
+                    <div class="step-number">04</div>
+                    <i class="fas fa-user-md step-icon"></i>
+                    <div class="step-content">
+                        <h5>Clinical Review</h5>
+                        <p>Specialized doctors review the AI findings to suggest medications, solutions, or further surgical proceedings.</p>
+                    </div>
+                </div>
+
+                <div class="step-card reveal">
+                    <div class="step-number">05</div>
+                    <i class="fas fa-file-medical-alt step-icon"></i>
+                    <div class="step-content">
+                        <h5>Results & Reporting</h5>
+                        <p>View integrated solutions on your dashboard and download the comprehensive diagnostic PDF report.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5 reveal">
+        <h6 class="text-primary text-uppercase fw-bold mb-2">Detection Scope</h6>
+        <h2 class="display-6 fw-bold">Target Pathologies</h2>
+    </div>
+
+    <div class="row g-4 mb-5">
+        <div class="col-md-4 reveal">
+            <div class="card tumor-card p-4 h-100 text-center shadow-sm">
+                <div class="mb-4" style="color: var(--glioma);"><i class="fas fa-virus-covid fa-3x"></i></div>
+                <h4 class="fw-bold">Glioma</h4>
+                <p class="small text-muted mb-4">Invasive tumors originating from glial cells. AI identifies diffuse patterns and high-grade edema.</p>
+                <span class="badge rounded-pill px-3 py-2" style="background: rgba(255,77,77,0.1); color: var(--glioma);">High Sensitivity</span>
+            </div>
+        </div>
+        <div class="col-md-4 reveal" style="transition-delay: 0.1s;">
+            <div class="card tumor-card p-4 h-100 text-center shadow-sm">
+                <div class="mb-4" style="color: var(--meningioma);"><i class="fas fa-shield-virus fa-3x"></i></div>
+                <h4 class="fw-bold">Meningioma</h4>
+                <p class="small text-muted mb-4">Extra-axial masses. Model excels at distinguishing "dural-tail" signatures from healthy bone.</p>
+                <span class="badge rounded-pill px-3 py-2" style="background: rgba(255,204,0,0.1); color: #b89600;">Structural Precision</span>
+            </div>
+        </div>
+        <div class="col-md-4 reveal" style="transition-delay: 0.2s;">
+            <div class="card tumor-card p-4 h-100 text-center shadow-sm">
+                <div class="mb-4" style="color: var(--pituitary);"><i class="fas fa-eye fa-3x"></i></div>
+                <h4 class="fw-bold">Pituitary</h4>
+                <p class="small text-muted mb-4">Localization near the optic chiasm for rapid macroadenoma detection.</p>
+                <span class="badge rounded-pill px-3 py-2" style="background: rgba(0,217,126,0.1); color: var(--pituitary);">Spatial Accuracy</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="yolo-section reveal">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <span style="color: var(--accent-blue);" class="fw-bold small text-uppercase mb-3 d-block">Backbone Technology</span>
+                <h2 class="display-5 fw-bold">Real-Time Clinical <br>Inference with YOLOv8</h2>
+                <p class="mt-4 text-white-50">
+                    Views the entire MRI slice in one pass, ensuring global context is maintained for higher accuracy than traditional tiling CNNs.
+                </p>
+            </div>
+            <div class="col-lg-5 text-center d-none d-lg-block">
+                <i class="fas fa-dna fa-8x opacity-25" style="color: var(--accent-blue);"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 100;
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    document.addEventListener("DOMContentLoaded", reveal);
+</script>
+{% endblock %}

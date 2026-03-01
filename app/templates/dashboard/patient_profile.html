@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Patient Profile</h2>
+
+    <div class="card mb-4">
+        <div class="card-body text-center">
+
+            <img src="{{ url_for('static', filename='profile_pics/' + user.profile_image) }}"
+                 width="120" height="120"
+                 class="rounded-circle mb-3">
+
+            <h4>{{ user.name }}</h4>
+            <p class="text-muted">{{ user.email }}</p>
+
+            <a href="{{ url_for('main.edit_profile') }}"
+               class="btn btn-primary mt-2">
+               Edit Profile
+            </a>
+
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+
+            <h5>Personal Information</h5>
+            <hr>
+
+            <p><strong>Age:</strong> {{ user.age or "Not Provided" }}</p>
+            <p><strong>Gender:</strong> {{ user.gender or "Not Provided" }}</p>
+            <p><strong>Place:</strong> {{ user.place or "Not Provided" }}</p>
+            <p><strong>Phone:</strong> {{ user.phone or "Not Provided" }}</p>
+
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <h5>Medical Summary</h5>
+            <hr>
+
+            <p><strong>Total Reports:</strong> {{ total_reports }}</p>
+            <p><strong>Last Diagnosis Date:</strong>
+                {{ last_diagnosis or "No Diagnosed Reports Yet" }}
+            </p>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

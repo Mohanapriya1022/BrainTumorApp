@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    :root {
+        --med-navy: #1a2e44;
+        --med-blue: #0056b3;
+        --med-light: #f4f8fb;
+        --med-text: #2c3e50;
+    }
+
+    /* Page background with a professional medical pattern */
+    body {
+        background: radial-gradient(circle at top right, #f0f7ff 0%, #ffffff 100%);
+        min-height: 100vh;
+    }
+
+    /* Form Card Styling */
+    .signup-card {
+        border: none;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 15px 35px rgba(26, 46, 68, 0.1);
+        transition: transform 0.3s ease;
+        border-top: 5px solid var(--med-blue);
+    }
+
+    .signup-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Typography */
+    .card-title {
+        color: var(--med-navy);
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .form-label {
+        color: var(--med-navy);
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+
+    /* Clean Input Fields - Removing Dark Mode for Medical Clarity */
+    .form-control, .form-select {
+        border: 2px solid #eef2f6;
+        border-radius: 10px;
+        padding: 12px 15px;
+        background-color: #fcfdfe;
+        color: var(--med-text);
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--med-blue);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.1);
+        color: var(--med-navy);
+    }
+
+    /* Professional Button */
+    .btn-signup {
+        background: var(--med-blue);
+        border: none;
+        padding: 14px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-signup:hover {
+        background: var(--med-navy);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
+    }
+
+    /* Icon Accents */
+    .input-group-text {
+        background: transparent;
+        border: 2px solid #eef2f6;
+        border-right: none;
+        color: var(--med-blue);
+    }
+    
+    .form-control {
+        border-left: 2px solid #eef2f6;
+    }
+
+    /* Floating Illustration Placeholder (Optional) */
+    .medical-badge {
+        width: 60px;
+        height: 60px;
+        background: var(--med-light);
+        color: var(--med-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: -30px auto 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-5">
+            <div class="card signup-card mt-5">
+                <div class="card-body p-5">
+                    <div class="medical-badge">
+                        <i class="fas fa-user-md fa-2x"></i>
+                    </div>
+
+                    <h2 class="text-center card-title mb-2">Create Account</h2>
+                    <p class="text-center text-muted small mb-4">Access the Neural Diagnostic Portal</p>
+                    
+                    <form method="POST" action="{{ url_for('auth.signup') }}">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" placeholder="name@email.com" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label">Portal Access Role</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                                <select name="role" class="form-select" required>
+                                    <option value="" disabled selected>Select your role...</option>
+                                    <option value="patient">Patient Profile</option>
+                                    <option value="doctor">Medical Practitioner</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-signup btn-lg text-white">
+                                Register Profile <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="text-muted small">Already registered? 
+                            <a href="{{ url_for('auth.login') }}" class="text-primary fw-bold text-decoration-none">Login to Portal</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

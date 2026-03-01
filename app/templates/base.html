@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NeuroScan AI | Brain Tumor Detection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --nav-navy: #0f172a;        /* High-contrast Navy */
+            --med-blue: #0062ff;        /* Primary Action Blue */
+            --accent-blue: #38bdf8;     /* Sky Blue for highlights */
+            --bg-slate: #f8fafc;        /* Off-white for background contrast */
+            --text-main: #1e293b;
+        }
+
+        body {
+            background-color: var(--bg-slate);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* --- HIGH CONTRAST DARK NAVBAR --- */
+        .navbar {
+            background-color: var(--nav-navy) !important;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: #ffffff !important;
+            font-size: 1.5rem;
+            font-weight: 800 !important;
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-brand i {
+            color: var(--accent-blue);
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin: 0 12px;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-blue) !important;
+            opacity: 1;
+        }
+
+        /* Nav Hover Underline */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-get-started {
+            background-color: var(--med-blue);
+            color: white !important;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px 0 rgba(0, 98, 255, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-get-started:hover {
+            background-color: #0052d6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 98, 255, 0.4);
+        }
+
+        .btn-outline-danger {
+            border-radius: 10px;
+            font-weight: 600;
+            border-width: 2px;
+            transition: 0.3s;
+        }
+
+        /* --- ALERTS --- */
+        .alert {
+            border: none;
+            border-radius: 16px;
+            font-weight: 500;
+            padding: 18px 25px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--med-blue);
+        }
+
+        /* --- FOOTER (Dark Contrast) --- */
+        footer {
+            background-color: var(--nav-navy);
+            color: #ffffff !important;
+            padding: 80px 0 40px;
+            margin-top: 100px;
+        }
+
+        footer p {
+            opacity: 0.6;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        footer .footer-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        footer .footer-logo i {
+            color: var(--accent-blue);
+        }
+
+        /* Container adjustment for fixed nav */
+        .main-wrapper {
+            margin-top: 100px;
+            min-height: 85vh;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="{{ url_for('main.home') }}">
+            <i class="fas fa-brain me-2"></i>NeuroScan AI
+        </a>
+
+        <button class="navbar-toggler" type="button" 
+                data-bs-toggle="collapse" 
+                data-bs-target="#navbarNav" 
+                style="border: none; color: white;">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.home') }}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                </li>
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'patient' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('main.patient_dashboard') }}">
+                                <i class="fas fa-columns me-1"></i> Dashboard
+                            </a>
+                        </li>
+                    {% elif current_user.role == 'doctor' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('main.doctor_dashboard') }}">
+                                <i class="fas fa-user-md me-1"></i> Dashboard
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-outline-danger btn-sm px-4" href="{{ url_for('auth.logout') }}">
+                            Logout
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                    </li>
+
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-get-started btn-sm" href="{{ url_for('auth.signup') }}">
+                            Get Started
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-wrapper">
+    <div class="container mt-4">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category in ['success','danger','warning','info'] else 'secondary' }} alert-dismissible fade show shadow-sm mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-circle-info me-3 text-primary" style="font-size: 1.2rem;"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+<footer>
+    <div class="container text-center">
+        <div class="footer-logo">
+            <i class="fas fa-brain me-2"></i>NeuroScan AI
+        </div>
+        <p class="mb-4" style="max-width: 500px; margin: 0 auto;">
+            Advanced neural diagnostics for automated brain tumor detection and classification.
+        </p>
+        <div class="mb-4">
+            <hr style="border-color: rgba(255,255,255,0.1); width: 100px; margin: 0 auto;">
+        </div>
+        <p class="mb-0">
+            © 2026 NeuroScan AI Research | Clinical Intelligence System
+        </p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 class="mb-4">Advanced MRI DICOM Viewer</h3>
+
+<div id="dicomImage" style="width:512px;height:512px;border:1px solid #444;"></div>
+
+<input type="range" id="windowLevel" min="0" max="500" value="250" />
+
+<script src="https://unpkg.com/cornerstone-core/dist/cornerstone.js"></script>
+<script src="https://unpkg.com/cornerstone-wado-image-loader/dist/cornerstoneWADOImageLoader.js"></script>
+
+<script>
+const element = document.getElementById('dicomImage');
+cornerstone.enable(element);
+
+const imageId = "wadouri:{{ dicom_url }}";
+
+cornerstone.loadImage(imageId).then(function(image) {
+    cornerstone.displayImage(element, image);
+});
+
+document.getElementById('windowLevel').addEventListener('input', function(e) {
+    const viewport = cornerstone.getViewport(element);
+    viewport.voi.windowWidth = e.target.value;
+    cornerstone.setViewport(element, viewport);
+});
+</script>
+
+{% endblock %}

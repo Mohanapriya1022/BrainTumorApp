@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2 class="mb-3">Hello, {{ current_user.name }}</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Upload New MRI Scan</h5>
+                <form method="POST" action="{{ url_for('main.upload_mri') }}" enctype="multipart/form-data">
+                    <div class="input-group">
+                        <input type="file" name="mri_image" class="form-control" accept=".jpg,.jpeg,.png,.tif" required>
+                        <button type="submit" class="btn btn-primary"><i
+                                class="fas fa-microscope me-2"></i>Analyze</button>
+                    </div>
+                    <small class="text-muted">Supported formats: JPG, PNG, TIF. Max size: 5MB.</small>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Recent Reports</h4>
+        {% if reports %}
+        <div class="table-responsive">
+            <table class="table table-dark table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Scan Image</th>
+                        <th>Tumor Type</th>
+                        <th>Severity</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                    <tr>
+                        <td>{{ report.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <img src="{{ url_for('static', filename='uploads/' + report.image_path) }}" height="50"
+                                class="rounded">
+                        </td>
+                        <td>{{ report.tumor_type if report.tumor_detected else 'None' }}</td>
+                        <td>
+                            {% if report.tumor_detected %}
+                            <span
+                                class="badge {{ 'bg-success' if 'Mild' in report.severity else ('bg-warning' if 'Moderate' in report.severity else 'bg-danger') }}">
+                                {{ report.severity }}
+                            </span>
+                            {% else %}
+                            <span class="badge bg-secondary">N/A</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if report.doctor_comments %}
+                            <span class="badge bg-success">Reviewed</span>
+                            {% else %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('main.view_result', report_id=report.id) }}"
+                                class="btn btn-sm btn-outline-info">View</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No previous reports found. Upload your first scan above!</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

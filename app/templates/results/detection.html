@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Report #{{ report.id }} Details</h2>
+        <div>
+            <a href="{{ url_for('main.download_report', report_id=report.id) }}" class="btn btn-outline-success"><i
+                    class="fas fa-download me-2"></i>Download PDF</a>
+            <a href="{{ url_for('main.patient_dashboard' if current_user.role == 'patient' else 'main.doctor_dashboard') }}"
+                class="btn btn-outline-light">Back</a>
+        </div>
+    </div>
+
+    <!-- Imaging Section -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-secondary text-white">Original MRI Scan</div>
+                <div class="card-body text-center d-flex align-items-center justify-content-center bg-black">
+                    <img src="{{ url_for('static', filename='uploads/' + report.image_path) }}" class="img-fluid"
+                        style="max-height: 400px;">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100 border-primary">
+                <div class="card-header bg-primary text-white">Processed Scan (Detected Region)</div>
+                <div class="card-body text-center d-flex align-items-center justify-content-center bg-black">
+                    <!-- Scanning animation wrapper -->
+                    <div class="scan-container">
+                        <div class="scan-line"></div>
+                        <img src="{{ url_for('static', filename='uploads/' + report.result_image_path) }}"
+                            class="img-fluid" style="max-height: 400px; border: 2px solid #0d6efd;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analysis Section -->
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">AI Analysis Result</div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-md-4 mb-3">
+                            <h5 class="text-muted">Tumor Detected</h5>
+                            <h3>{{ 'YES' if report.tumor_detected else 'NO' }}</h3>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <h5 class="text-muted">Type</h5>
+                            <h3 class="text-info">{{ report.tumor_type }}</h3>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <h5 class="text-muted">Severity</h5>
+                            <h3 class="{{ 'text-danger' if 'Severe' in report.severity else 'text-warning' }}">{{
+                                report.severity }}</h3>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="mb-1"><strong>Model Confidence:</strong> {{ (report.confidence * 100)|round(2) }}%</p>
+                    <div class="progress" style="height: 20px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                            style="width: {{ report.confidence * 100 }}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Doctor's Diagnosis & Remarks</div>
+                <div class="card-body">
+                    {% if current_user.role == 'doctor' %}
+                    <form method="POST" action="{{ url_for('main.update_diagnosis', report_id=report.id) }}">
+                        <div class="mb-3">
+                            <label class="form-label">Add Clinical Notes:</label>
+                            <textarea name="comments" class="form-control"
+                                rows="4">{{ report.doctor_comments or '' }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Diagnosis</button>
+                    </form>
+                    {% else %}
+                    {% if report.doctor_comments %}
+                    <div class="alert alert-secondary">
+                        <i class="fas fa-user-md me-2"></i> <strong>Dr. Remarks:</strong>
+                        <p class="mt-2 text-black-50">{{ report.doctor_comments }}</p>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">Waiting for doctor review...</p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">Patient Info</div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> {{ report.patient.name }}</p>
+                    <p><strong>Email:</strong> {{ report.patient.email }}</p>
+                    <p><strong>ID:</strong> #{{ report.patient.id }}</p>
+                    <p><strong>Scan Date:</strong> {{ report.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
