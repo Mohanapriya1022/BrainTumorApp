@@ -161,7 +161,7 @@ def update_diagnosis(report_id):
     db.session.commit()
 
     return redirect(url_for('main.doctor_dashboard'))
-
+# ================= PATIENT PROFILE =================
 @main.route('/patient_profile')
 @login_required
 def patient_profile():
@@ -184,10 +184,12 @@ def patient_profile():
     return render_template(
         'dashboard/patient_profile.html',
         user=current_user,
-        reports=reports,
         total_reports=total_reports,
         last_diagnosis=last_diagnosis
     )
+
+
+# ================= EDIT PROFILE =================
 @main.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -197,14 +199,19 @@ def edit_profile():
 
     if request.method == 'POST':
 
+        # ✅ NEW: Save age and gender
+        current_user.age = request.form.get('age')
+        current_user.gender = request.form.get('gender')
+
+        # Existing fields
         current_user.phone = request.form.get('phone')
         current_user.place = request.form.get('place')
 
-        # Handle profile image
+        # Handle profile image upload
         if 'profile_image' in request.files:
             file = request.files['profile_image']
 
-            if file.filename != "":
+            if file and file.filename != "":
                 filename = secure_filename(file.filename)
                 file_path = os.path.join(
                     current_app.config['PROFILE_UPLOAD_FOLDER'],
