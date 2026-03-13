@@ -1,175 +1,224 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
     :root {
-        --med-navy: #1a2e44;
-        --med-blue: #0056b3;
-        --med-light: #f4f8fb;
-        --med-text: #2c3e50;
+        --clinical-blue: #2563eb;
+        --clinical-navy: #0f172a;
+        --slate-50: #f8fafc;
+        --slate-200: #e2e8f0;
+        --slate-600: #475569;
     }
 
-    /* Page background with a professional medical pattern */
     body {
-        background: radial-gradient(circle at top right, #f0f7ff 0%, #ffffff 100%);
-        min-height: 100vh;
+        background-color: var(--slate-50);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--clinical-navy);
+        -webkit-font-smoothing: antialiased;
     }
 
-    /* Form Card Styling */
-    .signup-card {
-        border: none;
-        border-radius: 20px;
-        background: #ffffff;
-        box-shadow: 0 15px 35px rgba(26, 46, 68, 0.1);
-        transition: transform 0.3s ease;
-        border-top: 5px solid var(--med-blue);
-    }
-
-    .signup-card:hover {
-        transform: translateY(-5px);
-    }
-
-    /* Typography */
-    .card-title {
-        color: var(--med-navy);
-        font-weight: 800;
-        letter-spacing: -0.5px;
-    }
-
-    .form-label {
-        color: var(--med-navy);
-        font-weight: 600;
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-    }
-
-    /* Clean Input Fields - Removing Dark Mode for Medical Clarity */
-    .form-control, .form-select {
-        border: 2px solid #eef2f6;
-        border-radius: 10px;
-        padding: 12px 15px;
-        background-color: #fcfdfe;
-        color: var(--med-text);
-        transition: all 0.3s ease;
-    }
-
-    .form-control:focus, .form-select:focus {
-        border-color: var(--med-blue);
-        background-color: #fff;
-        box-shadow: 0 0 0 4px rgba(0, 86, 179, 0.1);
-        color: var(--med-navy);
-    }
-
-    /* Professional Button */
-    .btn-signup {
-        background: var(--med-blue);
-        border: none;
-        padding: 14px;
-        border-radius: 10px;
-        font-weight: 700;
-        text-uppercase;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-signup:hover {
-        background: var(--med-navy);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 86, 179, 0.3);
-    }
-
-    /* Icon Accents */
-    .input-group-text {
-        background: transparent;
-        border: 2px solid #eef2f6;
-        border-right: none;
-        color: var(--med-blue);
-    }
-    
-    .form-control {
-        border-left: 2px solid #eef2f6;
-    }
-
-    /* Floating Illustration Placeholder (Optional) */
-    .medical-badge {
-        width: 60px;
-        height: 60px;
-        background: var(--med-light);
-        color: var(--med-blue);
-        border-radius: 50%;
+    /* Stable Center Container */
+    .auth-container {
+        min-height: 90vh;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: -30px auto 20px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        padding: 2rem 0;
+    }
+
+    /* The "Clinical Card" */
+    .signup-card {
+        background: #ffffff;
+        border: 1px solid var(--slate-200);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        width: 100%;
+        max-width: 440px;
+        overflow: hidden;
+    }
+
+    /* Section Headers */
+    .card-header-custom {
+        padding: 2.5rem 2.5rem 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--slate-50);
+    }
+
+    .card-header-custom h2 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.025em;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Form Elements */
+    .card-body-custom {
+        padding: 0 2.5rem 2.5rem;
+    }
+
+    .form-group-custom {
+        margin-bottom: 1.25rem;
+    }
+
+    .label-custom {
+        display: block;
+        font-size: 0.813rem;
+        font-weight: 600;
+        color: var(--slate-600);
+        margin-bottom: 0.5rem;
+    }
+
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-wrapper i {
+        position: absolute;
+        left: 1rem;
+        color: var(--slate-600);
+        font-size: 0.9rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.75rem;
+        border: 1px solid var(--slate-200);
+        border-radius: 8px;
+        font-size: 0.938rem;
+        transition: all 0.2s ease;
+        background-color: #fff;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--clinical-blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Refined Primary Button */
+    .btn-clinical-primary {
+        width: 100%;
+        background-color: var(--clinical-blue);
+        color: #ffffff;
+        padding: 0.875rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.938rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-top: 1rem;
+    }
+
+    .btn-clinical-primary:hover {
+        background-color: #1d4ed8;
+    }
+
+    /* Role Badge Selection */
+    .role-select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='激19l-7 7-7-7'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1rem;
+    }
+
+    .footer-note {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        color: var(--slate-600);
+    }
+
+    .footer-link {
+        color: var(--clinical-blue);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .footer-link:hover {
+        text-decoration: underline;
+    }
+
+    /* HIPAA/Security Footer */
+    .security-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--slate-600);
+        margin-top: 2rem;
+        opacity: 0.8;
     }
 </style>
 
-<div class="container">
-    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
-        <div class="col-md-5">
-            <div class="card signup-card mt-5">
-                <div class="card-body p-5">
-                    <div class="medical-badge">
-                        <i class="fas fa-user-md fa-2x"></i>
-                    </div>
+<div class="auth-container">
+    <div class="signup-card">
+        <div class="card-header-custom">
+            <div style="background: var(--slate-50); width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <i class="fa-solid fa-house-medical text-primary" style="font-size: 1.5rem;"></i>
+            </div>
+            <h2>Neural Diagnostic Portal</h2>
+            <p style="color: var(--slate-600); font-size: 0.875rem;">Create your secure medical profile</p>
+        </div>
 
-                    <h2 class="text-center card-title mb-2">Create Account</h2>
-                    <p class="text-center text-muted small mb-4">Access the Neural Diagnostic Portal</p>
-                    
-                    <form method="POST" action="{{ url_for('auth.signup') }}">
-                        <div class="mb-3">
-                            <label class="form-label">Full Name</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Email Address</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                                <input type="email" name="email" class="form-control" placeholder="name@email.com" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Password</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label">Portal Access Role</label>
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="fas fa-id-card"></i></span>
-                                <select name="role" class="form-select" required>
-                                    <option value="" disabled selected>Select your role...</option>
-                                    <option value="patient">Patient Profile</option>
-                                    <option value="doctor">Medical Practitioner</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-signup btn-lg text-white">
-                                Register Profile <i class="fas fa-arrow-right ms-2"></i>
-                            </button>
-                        </div>
-                    </form>
-
-                    <div class="text-center mt-4">
-                        <p class="text-muted small">Already registered? 
-                            <a href="{{ url_for('auth.login') }}" class="text-primary fw-bold text-decoration-none">Login to Portal</a>
-                        </p>
+        <div class="card-body-custom">
+            <form method="POST" action="{{ url_for('auth.signup') }}">
+                
+                <div class="form-group-custom">
+                    <label class="label-custom">Full Legal Name</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" name="name" class="form-input" placeholder="e.g. Dr. John Smith" required>
                     </div>
                 </div>
+
+                <div class="form-group-custom">
+                    <label class="label-custom">Institutional Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" name="email" class="form-input" placeholder="name@medical-center.org" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label class="label-custom">Security Password</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" name="password" class="form-input" placeholder="Min. 8 characters" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label class="label-custom">Access Privileges</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-id-badge"></i>
+                        <select name="role" class="form-input role-select" required>
+                            <option value="" disabled selected>Assign profile role...</option>
+                            <option value="patient">Patient Dashboard</option>
+                            <option value="doctor">Medical Practitioner</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-clinical-primary">
+                    Create Clinical Account
+                </button>
+            </form>
+
+            <div class="footer-note">
+                Already registered? <a href="{{ url_for('auth.login') }}" class="footer-link">Sign in here</a>
             </div>
-            
-            
+
+            <div class="security-badge">
+                <i class="fa-solid fa-shield-check"></i>
+                <span>Secure End-to-End Encrypted Session</span>
+            </div>
         </div>
     </div>
 </div>

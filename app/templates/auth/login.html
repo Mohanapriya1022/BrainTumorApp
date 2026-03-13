@@ -1,236 +1,262 @@
 {% extends "base.html" %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-:root {
-    --med-navy: #1a2e44;
-    --med-blue: #0056b3;
-    --med-light: #f4f8fb;
-    --med-text: #2c3e50;
-}
+    :root {
+        --clinical-blue: #2563eb;
+        --clinical-navy: #0f172a;
+        --slate-50: #f8fafc;
+        --slate-200: #e2e8f0;
+        --slate-600: #475569;
+        --doctor-blue: #0056b3;
+        --patient-green: #28a745;
+    }
 
-/* Background */
-body {
-    background: radial-gradient(circle at bottom left, #f0f7ff 0%, #ffffff 100%);
-    min-height: 100vh;
-}
+    body {
+        background-color: var(--slate-50);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        color: var(--clinical-navy);
+        -webkit-font-smoothing: antialiased;
+    }
 
-/* Card */
-.login-card {
-    border: none;
-    border-radius: 20px;
-    background: #ffffff;
-    box-shadow: 0 15px 35px rgba(26, 46, 68, 0.1);
-    border-top: 5px solid var(--med-blue);
-    transition: 0.3s;
-}
+    /* Stable Center Container */
+    .auth-container {
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
 
-.login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 45px rgba(26, 46, 68, 0.15);
-}
+    /* The "Clinical Card" */
+    .login-card {
+        background: #ffffff;
+        border: 1px solid var(--slate-200);
+        border-radius: 12px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        width: 100%;
+        max-width: 440px;
+        overflow: hidden;
+    }
 
-/* Title */
-.card-title {
-    color: var(--med-navy);
-    font-weight: 800;
-}
+    /* Section Headers */
+    .card-header-custom {
+        padding: 2.5rem 2.5rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid var(--slate-50);
+    }
 
-/* Inputs */
-.form-control {
-    border: 2px solid #eef2f6;
-    border-radius: 10px;
-    padding: 12px;
-    background-color: #fcfdfe;
-}
+    .card-header-custom h2 {
+        font-weight: 700;
+        font-size: 1.5rem;
+        letter-spacing: -0.025em;
+        margin-bottom: 0.5rem;
+    }
 
-.form-control:focus {
-    border-color: var(--med-blue);
-    box-shadow: 0 0 0 4px rgba(0,86,179,0.1);
-}
+    /* Form Elements */
+    .card-body-custom {
+        padding: 0 2.5rem 2.5rem;
+    }
 
-/* Button */
-.btn-login {
-    background: var(--med-blue);
-    border: none;
-    padding: 14px;
-    border-radius: 10px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    transition: 0.3s;
-}
+    .form-group-custom {
+        margin-bottom: 1.25rem;
+    }
 
-.btn-login:hover {
-    transform: translateY(-2px);
-}
+    .label-custom {
+        display: block;
+        font-size: 0.813rem;
+        font-weight: 600;
+        color: var(--slate-600);
+        margin-bottom: 0.5rem;
+    }
 
-/* Role Buttons */
-.role-select .btn {
-    border-radius: 10px;
-    font-weight: 600;
-}
+    /* Input Styling */
+    .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
 
-/* Lock badge */
-.auth-badge {
-    width: 60px;
-    height: 60px;
-    background: var(--med-light);
-    color: var(--med-blue);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: -30px auto 20px;
-}
+    .input-wrapper i {
+        position: absolute;
+        left: 1rem;
+        color: var(--slate-600);
+        font-size: 0.9rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem 0.75rem 2.75rem;
+        border: 1px solid var(--slate-200);
+        border-radius: 8px;
+        font-size: 0.938rem;
+        transition: all 0.2s ease;
+        background-color: #fff;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--clinical-blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Primary Button */
+    .btn-clinical-primary {
+        width: 100%;
+        background-color: var(--clinical-blue);
+        color: #ffffff;
+        padding: 0.875rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.938rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+    }
+
+    /* Role Selection (Radio Buttons as Toggle) */
+    .role-toggle-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 0.5rem;
+    }
+
+    .role-toggle-item {
+        flex: 1;
+    }
+
+    .btn-check:checked + .btn-outline-primary {
+        background-color: var(--doctor-blue);
+        border-color: var(--doctor-blue);
+        color: white;
+    }
+
+    .btn-check:checked + .btn-outline-success {
+        background-color: var(--patient-green);
+        border-color: var(--patient-green);
+        color: white;
+    }
+
+    .footer-note {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.875rem;
+        color: var(--slate-600);
+    }
+
+    .footer-link {
+        color: var(--clinical-blue);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .footer-link:hover {
+        text-decoration: underline;
+    }
+
+    .security-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--slate-600);
+        margin-top: 2rem;
+        opacity: 0.8;
+    }
 </style>
 
-<div class="container">
-<div class="row justify-content-center align-items-center" style="min-height:80vh;">
-<div class="col-md-5 col-lg-4">
+<div class="auth-container">
+    <div class="login-card">
+        <div class="card-header-custom">
+            <div style="background: var(--slate-50); width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                <i class="fa-solid fa-shield-halved text-primary" style="font-size: 1.5rem;"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <p style="color: var(--slate-600); font-size: 0.875rem;">Neural Analysis Login Gateway</p>
+        </div>
 
-<div class="card login-card mt-5">
-<div class="card-body p-5">
+        <div class="card-body-custom">
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                
+                <div class="form-group-custom">
+                    <label class="label-custom">Identify Access Role</label>
+                    <div class="role-toggle-group">
+                        <div class="role-toggle-item">
+                            <input type="radio" class="btn-check" name="role" id="doctor" value="doctor" required>
+                            <label class="btn btn-outline-primary w-100 py-2 border-radius-8" for="doctor">
+                                <i class="fas fa-user-md me-1"></i> Doctor
+                            </label>
+                        </div>
+                        <div class="role-toggle-item">
+                            <input type="radio" class="btn-check" name="role" id="patient" value="patient">
+                            <label class="btn btn-outline-success w-100 py-2 border-radius-8" for="patient">
+                                <i class="fas fa-user me-1"></i> Patient
+                            </label>
+                        </div>
+                    </div>
+                    <div id="roleInfo" class="text-center mt-2 small" style="font-size: 0.75rem; color: var(--slate-600);">
+                        Select your role to initialize the portal.
+                    </div>
+                </div>
 
-<div class="auth-badge">
-<i class="fas fa-lock fa-2x"></i>
+                <div class="form-group-custom">
+                    <label class="label-custom">Institutional Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="emailField" name="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label class="label-custom">Security Key</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" name="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <button type="submit" id="loginBtn" class="btn-clinical-primary">
+                    Authorize & Sign In
+                </button>
+            </form>
+
+            <div class="footer-note">
+                New to the portal? <a href="{{ url_for('auth.signup') }}" class="footer-link">Create Account</a>
+            </div>
+
+            <div class="security-badge">
+                <i class="fa-solid fa-lock"></i>
+                <span>Authorized Personnel Access Only</span>
+            </div>
+        </div>
+    </div>
 </div>
-
-<h2 class="text-center card-title mb-2">Welcome Back</h2>
-<p class="text-center text-muted small mb-4">Neural Analysis Login Gateway</p>
-
-<form method="POST" action="{{ url_for('auth.login') }}">
-
-<!-- ROLE SELECTION -->
-
-<div class="mb-4">
-<label class="form-label fw-bold">Login As</label>
-
-<div class="d-flex gap-3 role-select">
-
-<input type="radio" class="btn-check" name="role" id="doctor" value="doctor" required>
-<label class="btn btn-outline-primary w-50 py-2" for="doctor">
-<i class="fas fa-user-md me-2"></i> Doctor
-</label>
-
-<input type="radio" class="btn-check" name="role" id="patient" value="patient">
-<label class="btn btn-outline-success w-50 py-2" for="patient">
-<i class="fas fa-user me-2"></i> Patient
-</label>
-
-</div>
-
-<!-- Dynamic Role Info -->
-
-<div id="roleInfo" class="text-center mt-3 small text-muted">
-Please select your role to continue
-</div>
-
-</div>
-
-<!-- EMAIL -->
-
-<div class="mb-3">
-<label class="form-label">Email Address</label>
-
-<div class="input-group">
-<span class="input-group-text">
-<i class="fas fa-envelope"></i>
-</span>
-
-<input type="email"
-id="emailField"
-name="email"
-class="form-control"
-placeholder="Enter your email"
-required>
-
-</div>
-</div>
-
-<!-- PASSWORD -->
-
-<div class="mb-4">
-<label class="form-label">Password</label>
-
-<div class="input-group">
-<span class="input-group-text">
-<i class="fas fa-key"></i>
-</span>
-
-<input type="password"
-name="password"
-class="form-control"
-placeholder="••••••••"
-required>
-
-</div>
-</div>
-
-<div class="d-grid">
-<button type="submit" class="btn btn-login btn-lg text-white">
-Authorize Access <i class="fas fa-sign-in-alt ms-2"></i>
-</button>
-</div>
-
-</form>
-
-<div class="text-center mt-4">
-<p class="text-muted small">
-New to the portal?
-<a href="{{ url_for('auth.signup') }}" class="text-primary fw-bold text-decoration-none">
-Create Account
-</a>
-</p>
-</div>
-
-</div>
-</div>
-
-<div class="text-center mt-4 text-muted small">
-<i class="fas fa-shield-alt me-1"></i> Authorized Personnel Only
-</div>
-
-</div>
-</div>
-</div>
-
-<!-- JAVASCRIPT FOR ROLE CHANGE -->
 
 <script>
+    const doctorBtn = document.getElementById("doctor");
+    const patientBtn = document.getElementById("patient");
+    const roleInfo = document.getElementById("roleInfo");
+    const emailField = document.getElementById("emailField");
+    const loginBtn = document.getElementById("loginBtn");
 
-const doctorBtn = document.getElementById("doctor");
-const patientBtn = document.getElementById("patient");
-const roleInfo = document.getElementById("roleInfo");
-const emailField = document.getElementById("emailField");
-const loginBtn = document.querySelector(".btn-login");
+    doctorBtn.addEventListener("change", function(){
+        roleInfo.innerHTML = "Doctor Portal Access — MRI analysis tools enabled.";
+        roleInfo.style.color = "#0056b3";
+        emailField.placeholder = "doctor@hospital.com";
+        loginBtn.style.backgroundColor = "#0056b3";
+    });
 
-doctorBtn.addEventListener("change", function(){
-
-roleInfo.innerHTML =
-"Doctor Portal Access — Upload MRI scans and analyze tumor detection.";
-
-roleInfo.style.color = "#0056b3";
-
-emailField.placeholder = "doctor@hospital.com";
-
-loginBtn.style.background = "#0056b3";
-
-});
-
-patientBtn.addEventListener("change", function(){
-
-roleInfo.innerHTML =
-"Patient Portal — View reports and brain scan diagnosis results.";
-
-roleInfo.style.color = "#28a745";
-
-emailField.placeholder = "patient@email.com";
-
-loginBtn.style.background = "#28a745";
-
-});
-
+    patientBtn.addEventListener("change", function(){
+        roleInfo.innerHTML = "Patient Portal — Viewing diagnosis reports.";
+        roleInfo.style.color = "#28a745";
+        emailField.placeholder = "patient@email.com";
+        loginBtn.style.backgroundColor = "#28a745";
+    });
 </script>
 
 {% endblock %}
